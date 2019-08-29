@@ -118,7 +118,8 @@ class ConstructorService
      */
     public function getTableInfo(string $tableIdentifier): Collection
     {
-        return $this->constructorRepository->getTableInfo($this->tablePrefix . $tableIdentifier);
+        $tableColumns = $this->constructorRepository->getTableInfo($this->tablePrefix . $tableIdentifier);
+        return $tableColumns->groupBy('group');
     }
     
     /**
