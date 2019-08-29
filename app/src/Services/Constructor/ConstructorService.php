@@ -116,10 +116,19 @@ class ConstructorService
      * @param string $tableIdentifier
      * @return Collection
      */
-    public function getTableInfo(string $tableIdentifier): Collection
+    public function getTableInfo(string $tableIdentifier): array
     {
+        $doneArray = [];
         $tableColumns = $this->constructorRepository->getTableInfo($this->tablePrefix . $tableIdentifier);
-        return $tableColumns->groupBy('group');
+        $grouppedColumns = $tableColumns->groupBy('group');
+        foreach ($grouppedColumns as $key => $tableColumn) {
+            array_push($doneArray, [
+                'group' => $key,
+                'columns' => $tableColumn
+            ]);
+        }
+
+        return $doneArray;
     }
     
     /**
