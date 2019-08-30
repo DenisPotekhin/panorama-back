@@ -76,14 +76,14 @@ class AdditionalInfoService
             return 'false';
         }
         
-        $tableInfo = $this->constructorService->getTableInfo($tableIdentifier);
+        $tableInfo = $this->constructorService->getPlainTableInfo($tableIdentifier);
     
         $additionalInfo = DB::table($this->tablePrefix.$tableIdentifier)
             ->where('element_id', $elementId)
             ->first();
         
         $decodedAdditionalInfo = json_decode(json_encode($additionalInfo), true);
-        
+
         foreach ($tableInfo as $infoItem) {
             $infoItem->value = $decodedAdditionalInfo[$infoItem->tech_title];
         }

@@ -112,9 +112,9 @@ class ConstructorService
     }
     
     /**
-     * Получить сводную информацию о столбцах
+     * Получить сводную информацию о столбцах и разделить по группам
      * @param string $tableIdentifier
-     * @return Collection
+     * @return array
      */
     public function getTableInfo(string $tableIdentifier): array
     {
@@ -129,6 +129,16 @@ class ConstructorService
         }
 
         return $doneArray;
+    }
+    
+    /**
+     * Получить сводную информацию о столбцах неразделенную по группам
+     * @param string $tableIdentifier
+     * @return mixed
+     */
+    public function getPlainTableInfo(string $tableIdentifier)
+    {
+        return $this->constructorRepository->getTableInfo($this->tablePrefix . $tableIdentifier);
     }
     
     /**
