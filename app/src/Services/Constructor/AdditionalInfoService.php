@@ -63,20 +63,20 @@ class AdditionalInfoService
 
         DB::table($additionalField['table_identifier'])->insert($fieldsArray);
     }
-    
+
     /**
      * Получить данные о таблице и получить дополнительные данные к ней
      * @param int $elementId
      * @param int $tableIdentifier
-     * @return \Illuminate\Support\Collection|string
+     * @return array|string
      */
-    public function getData(int $elementId, int $tableIdentifier)
+    public function getData(int $elementId, int $tableIdentifier): array
     {
         if($this->constructorService->isTableExists($tableIdentifier) == 'false') {
             return 'false';
         }
         
-        $tableInfo = $this->constructorService->getPlainTableInfo($tableIdentifier);
+        $tableInfoByGroups = $this->constructorService->getTableInfo($tableIdentifier);
     
         $additionalInfo = DB::table($this->tablePrefix.$tableIdentifier)
             ->where('element_id', $elementId)
@@ -84,11 +84,12 @@ class AdditionalInfoService
         
         $decodedAdditionalInfo = json_decode(json_encode($additionalInfo), true);
 
-        foreach ($tableInfo as $infoItem) {
-            $infoItem->value = $decodedAdditionalInfo[$infoItem->tech_title];
+        foreach ($tableInfoByGroups as $infoByGroups) {
+            foreach ($infoByGroups['columns'] as $infoItem) {
+                $infoItem->value = $decodedAdditionalInfo[$infoItem->tech_title];
+            }
         }
-        
-        return $tableInfo;
+        return $tableInfoByGroups;
     }
     
     /**

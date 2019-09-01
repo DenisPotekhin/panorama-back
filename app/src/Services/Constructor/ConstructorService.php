@@ -130,17 +130,7 @@ class ConstructorService
 
         return $doneArray;
     }
-    
-    /**
-     * Получить сводную информацию о столбцах неразделенную по группам
-     * @param string $tableIdentifier
-     * @return mixed
-     */
-    public function getPlainTableInfo(string $tableIdentifier)
-    {
-        return $this->constructorRepository->getTableInfo($this->tablePrefix . $tableIdentifier);
-    }
-    
+
     /**
      * Проверить - существует ли таблица
      * @param string $tableIdentifier
